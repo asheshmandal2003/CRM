@@ -1,10 +1,8 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import './InfoBox.css'
 
 function InfoBox() {
-  const router = useRouter()
   return (
     <div className="info-box">
       <p className="info">
@@ -15,9 +13,9 @@ function InfoBox() {
         <br />
         <strong className="info-password">Password:</strong> admin
       </p>
-      <button className="info-button" onClick={() => router.push('/admin')}>
+      <a className="info-button" href="/admin" target="_blank">
         Go to Admin Panel
-      </button>
+      </a>
     </div>
   )
 }
