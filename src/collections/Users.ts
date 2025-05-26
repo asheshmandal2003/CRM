@@ -9,5 +9,11 @@ export const Users: CollectionConfig = {
   fields: [
     // Email added by default
     // Add more fields as needed
+    {
+      name: 'role',
+      type: 'select',
+      options: ['super-admin', 'tenant-admin', 'user'],
+      defaultValue: 'user',
+    },
   ],
 }

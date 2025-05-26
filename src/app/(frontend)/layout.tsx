@@ -1,9 +1,11 @@
 import React from 'react'
 import './styles.css'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
+  description: 'Contact Us - Get in touch with our team for any inquiries or support.',
+  title: 'Contact Us',
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
@@ -13,6 +15,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <main>{children}</main>
+        <ToastContainer />
       </body>
     </html>
   )
