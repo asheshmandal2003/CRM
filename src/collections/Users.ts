@@ -12,7 +12,11 @@ export const Users: CollectionConfig = {
     {
       name: 'role',
       type: 'select',
-      options: ['super-admin', 'tenant-admin', 'user'],
+      options: [
+        { label: 'Super Admin', value: 'super-admin' },
+        { label: 'Tenant Admin', value: 'tenant-admin' },
+        { label: 'User', value: 'user' },
+      ],
       defaultValue: 'user',
     },
   ],
