@@ -1,9 +1,9 @@
 import ErrorPage from '../../components/ErrorPage'
 import ContactForm from './components/ContactForm'
 
-export default async function ContactFormPage({ params }: { params: { id: string } }) {
+export default async function ContactFormPage({ params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params
+    const { id } = await params
     const response = await fetch(`${process.env.BASE_URL}/api/forms/${id}`)
     if (!response.ok) {
       throw new Error('Form not found')
