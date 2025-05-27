@@ -1,67 +1,102 @@
-# Payload Blank Template
+# Contact Us Forms Using Payload CMS
 
-This template comes configured with the bare minimum to get started on anything you need.
+## Overview
 
-## Quick start
+1. This application has 3 types of user:
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+- Super Admin (Can access every fields of the application)
+- Tenant Admin (Specially made to handle tenants)
+- User (Normal user with restricted permissions)
 
-## Quick Start - local setup
+2. `Supabase` is used as database provider.
+3. `FormBuilder` plugin has been used to generate forms and handling form submission.
+4. This application has an interactive UI for navigating to different forms.
+5. This application uses `multi-tenancy` for form creation and form submission.
+6. Every tenants has differnt types of users. Each tenant can only access their forms and form submissions.
 
-To spin up this template locally, follow these steps:
+## Steps Followed to Implement Form Builder and Multitenancy
 
-### Clone
+1. Installed the required dependencies.
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+```
+npm install @payloadcms/plugin-form-builder @payloadcms/plugin-multi-tenant
+```
 
-### Development
+2. Added roles field (super-admin, tenant-admin, user) in the `Users` collection.
+3. Created a `Tenant` collection with basic field requirements (name, slug, domain).
+4. Added the form builder plugin and multi tenant plugin in the `payload.config.ts` file's plugin section.
+5. Configured the formbuilder plugin (Only text, email and placeholder field will be available to create a form).
+6. Gave the form creation and updation access to the super-admin and tenant-admin only.
+7. Created a form UI to fetch and show the form and submit the response through the form using correspondig APIs.
+8. Configured the multi tenant plugin. Integrated it with the Tenant collection for choosing the tenant.
+9. Enbled auto tenant enabling feature for form creation and submission.
+10. Gave the tenant creation access to super-admin and tenant-admin. Only super-admin can update a tenant.
+11. Set the logic to give full access to the super admin to view every tenants, forms and form submissions.
+12. Set the access type (admin, editor, viewer) for the tenant.
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URI` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+## Prerequisites
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+1. `Node.js` should be installed (v20.0.9+).
+2. `Supabase` setup.
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+## Installation Guide
 
-#### Docker (Optional)
+1. Clone the repository
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+```
+git clone https://github.com/asheshmandal2003/CRM.git
+```
 
-To do so, follow these steps:
+2. Navigate to the repository
 
-- Modify the `MONGODB_URI` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URI` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+```
+cd ./CRM
+```
 
-## How it works
+3. Install the dependencies.
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+```
+npm install
+```
 
-### Collections
+4. Setup environment variables as per the `.env.example` file.
+5. Run the application
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+```
+npm run dev
+```
 
-- #### Users (Authentication)
+6. Access the application at `http://localhost:3000`
 
-  Users are auth-enabled collections that have access to the admin panel.
+## API Endpoints:
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+1. For fetching the form details:
 
-- #### Media
+```
+GET http://localhost:3000/api/forms/[id]
+```
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+Here [id] is the form ID.
 
-### Docker
+2. For the form submission:
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
+```
+POST http://localhost:3000/api/form-submissions
+```
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+Access the API endpoints from Postman: [LINK](https://bold-resonance-366154.postman.co/workspace/Team-Workspace~e95a3359-7e45-4241-8fc4-4809c33c28d5/collection/24146533-46190239-dd05-4ffd-bc20-511239d906fc?action=share&creator=24146533)
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
+## Permissions
 
-## Questions
+1. **Super Admin**
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+- Super admin can track every users, tenats, forms and form-submissions.
+- Super admin can only create, update and delete anything in the application.
+
+2. **Tenant Admin**
+
+- Tenat admin can view only the assigned forms and corresponding form submissions.
+
+3. **User**
+
+- Users have only form submission access.
