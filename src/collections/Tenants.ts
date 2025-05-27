@@ -5,6 +5,12 @@ export const Tenants: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
   },
+  access: {
+    read: ({ req: { user } }) => user?.role === 'super-admin' || user?.role === 'tenant-admin',
+    create: ({ req: { user } }) => user?.role === 'super-admin',
+    update: ({ req: { user } }) => user?.role === 'super-admin',
+    delete: ({ req: { user } }) => user?.role === 'super-admin',
+  },
   fields: [
     {
       name: 'name',
